@@ -26,6 +26,7 @@ const kms = new AWS.KMS();
 //const hkdf = require("js-crypto-hkdf");
 //const cryptoAesGcm = require("crypto-aes-gcm");
 const { v4: uuidv4 } = require('uuid');
+import {v4 as uuidv4} from 'uuid';
 
 /**
  * @function
@@ -68,7 +69,7 @@ async function saveItem(tableName, item) {
  * @return {Promise} Promesa del servicio
  **/
 async function encryptItem(item) {
-  const keyId = 'arn:aws:kms:us-east-1:108912467164:key/1037d78f-c6c3-4de5-89fc-693cdb94a732';
+  const keyId = 'arn:aws:kms:us-east-1:<account_id>:key/<key>';
   const encryptedItem = {};
   let firstElementProcessed = false;
   for (const key in item) {
@@ -91,7 +92,7 @@ async function encryptItem(item) {
  * @return {Promise} Promesa del servicio
  **/
 async function decryptItem(data) {
-  const keyId = 'arn:aws:kms:us-east-1:108912467164:key/1037d78f-c6c3-4de5-89fc-693cdb94a732';
+  const keyId = 'arn:aws:kms:us-east-1:<account_id>:key/<key>';
   const decryptedItem = {};
   let firstElementProcessed = false;
   console.log('data', data);
@@ -113,7 +114,7 @@ async function decryptItem(data) {
 async function encryptAndStoreData(id) {
   console.log('UUID', uuidv4());
   // Genera una clave simétrica aleatoria
-  const dataKey = await kms.generateDataKey({ KeyId: "1037d78f-c6c3-4de5-89fc-693cdb94a732", KeySpec: "AES_256" }).promise();
+  const dataKey = await kms.generateDataKey({ KeyId: "<key>", KeySpec: "AES_256" }).promise();
   console.log('dataKey', dataKey);
   // Encripta la clave simétrica con la clave maestra de KMS
   const encryptedDataKey = await kms.encrypt({
