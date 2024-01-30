@@ -105,7 +105,7 @@ Permite guardar un item en una tabla en DynamoDB cifrando con kms los campos.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| tableName | <code>string</code> | Nombre de la tabla de la cual desea obtener el item |
+| tableName | <code>string</code> | Nombre de la tabla en la cual desea guardar el item |
 | item | <code>object</code> | Item a guardar en DynamoDB |
 
 **Example**
