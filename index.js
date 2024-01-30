@@ -1,35 +1,50 @@
 const EncryptedDynamoDbClient = require ('./dynamo_sdk');
 
+const TableName ="otp"
+const events = {
+  save: async ({body})=>{
+      const paramsItem = {
+        TableName,
+        Item: {
+          id: {
+            S: body.id
+          },
+          status: {
+            S: body.status
+          },
+          nameApi: {
+            S: body.nameApi
+          },
+          fecha:{
+            S: "2015-03-25"
+          }
+        }
+      };
+      return await EncryptedDynamoDbClient.saveItem(TableName, paramsItem.Item);
+  },
+  get: async ({body})=>{
+    const itemToSearch = {
+        id: {
+          S: body.id
+        },
+        fecha:{
+          S: "2015-03-25"
+        }
+    }
+    console.log('key', itemToSearch);
+    return await EncryptedDynamoDbClient.getItem(TableName, itemToSearch);
+  }
+}
+
 exports.handler = async (event, context) => {
-  const body = JSON.parse(event.body);
-  const id = body.id;
-  const paramsItem = {
-    TableName: 'employee-restore-status',
-    Item: {
-      id: {
-        S: id
-      },
-      status: {
-        S: "IN PROGRESS"
-      },
-      ttl: {
-        S: "1800"
+  console.log("🚀 ~ lambdaHandler ~ event:", event.body.id)
+    const eventValue = events[event.action]
+    const response = await eventValue(event)
+    return {
+      statusCode: 200,
+      body: {
+        data: response,
+        message: "Proceso exitoso"
       }
     }
-  };
-  await EncryptedDynamoDbClient.encryptAndStoreData(paramsItem.Item.id.S);
-  /*await EncryptedDynamoDbClient.saveItem(paramsItem.TableName, paramsItem.Item);
-  const itemToSearch = {
-      id: {
-        S: id
-      }
-  }
-  console.log('key', itemToSearch);
-  const data = await EncryptedDynamoDbClient.getItem(paramsItem.TableName, itemToSearch);*/
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: "Proceso exitoso"
-    }),
-  };
 };

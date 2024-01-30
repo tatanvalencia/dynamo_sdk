@@ -1,5 +1,5 @@
 {
-  "name": "start-recover-employee",
+  "name": "dynamo_sdk",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,11 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1536.0",
-    "crypto-aes-gcm": "^2.0.3",
-    "crypto-js": "^4.2.0",
-    "elliptic-nodejs": "^6.5.4",
-    "js-crypto-hkdf": "^1.0.7",
-    "uuid": "^9.0.1"
+    "aws-sdk": "^2.1536.0"
   }
 }
